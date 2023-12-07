@@ -1,0 +1,32 @@
+target/release/examples/bench bulk TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256	max_fragment_size:default	send	2883.38	MB/s
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256	max_fragment_size:default	recv	6134.40	MB/s
+target/release/examples/bench bulk TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	max_fragment_size:default	send	2778.06	MB/s
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	max_fragment_size:default	recv	5776.34	MB/s
+target/release/examples/bench bulk TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256	max_fragment_size:default	send	1294.64	MB/s
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256	max_fragment_size:default	recv	1739.15	MB/s
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256	max_fragment_size:default	send	1816.81	MB/s
+bulk	TLSv1_2	TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256	max_fragment_size:default	recv	1738.67	MB/s
+target/release/examples/bench bulk TLS13_AES_256_GCM_SHA384
+bulk	TLSv1_3	TLS13_AES_256_GCM_SHA384	max_fragment_size:default	send	2780.66	MB/s
+bulk	TLSv1_3	TLS13_AES_256_GCM_SHA384	max_fragment_size:default	recv	6085.97	MB/s
+target/release/examples/bench handshake TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+handshakes	TLSv1_2	Rsa	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	client	server-auth	no-resume	4982.01	handshake/s
+handshakes	TLSv1_2	Rsa	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	server	server-auth	no-resume	1484.25	handshake/s
+target/release/examples/bench handshake-resume TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+handshakes	TLSv1_2	Rsa	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	client	server-auth	sessionid	45819.99	handshake/s
+handshakes	TLSv1_2	Rsa	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	server	server-auth	sessionid	39511.29	handshake/s
+target/release/examples/bench handshake-ticket TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+handshakes	TLSv1_2	Rsa	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	client	server-auth	tickets	46114.50	handshake/s
+handshakes	TLSv1_2	Rsa	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384	server	server-auth	tickets	35979.21	handshake/s
+target/release/examples/bench handshake TLS13_AES_256_GCM_SHA384
+handshakes	TLSv1_3	Rsa	TLS13_AES_256_GCM_SHA384	client	server-auth	no-resume	4613.84	handshake/s
+handshakes	TLSv1_3	Rsa	TLS13_AES_256_GCM_SHA384	server	server-auth	no-resume	1355.68	handshake/s
+target/release/examples/bench handshake-resume TLS13_AES_256_GCM_SHA384
+handshakes	TLSv1_3	Rsa	TLS13_AES_256_GCM_SHA384	client	server-auth	sessionid	10957.17	handshake/s
+handshakes	TLSv1_3	Rsa	TLS13_AES_256_GCM_SHA384	server	server-auth	sessionid	7295.78	handshake/s
+target/release/examples/bench handshake-ticket TLS13_AES_256_GCM_SHA384
+handshakes	TLSv1_3	Rsa	TLS13_AES_256_GCM_SHA384	client	server-auth	tickets	10954.75	handshake/s
+handshakes	TLSv1_3	Rsa	TLS13_AES_256_GCM_SHA384	server	server-auth	tickets	7218.09	handshake/s

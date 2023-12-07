@@ -1,0 +1,46 @@
+env LD_LIBRARY_PATH=../openssl ./bench bulk ECDHE-RSA-AES128-GCM-SHA256 1048576
+negotiated TLSv1.2 with ECDHE-RSA-AES128-GCM-SHA256
+send: 6479.75 MB/s
+recv: 7191.21 MB/s
+env LD_LIBRARY_PATH=../openssl ./bench bulk ECDHE-RSA-AES256-GCM-SHA384 1048576
+negotiated TLSv1.2 with ECDHE-RSA-AES256-GCM-SHA384
+send: 6065.7 MB/s
+recv: 6548.97 MB/s
+env LD_LIBRARY_PATH=../openssl ./bench bulk ECDHE-RSA-CHACHA20-POLY1305 1048576
+negotiated TLSv1.2 with ECDHE-RSA-CHACHA20-POLY1305
+send: 1684.03 MB/s
+recv: 1716.39 MB/s
+env LD_LIBRARY_PATH=../openssl ./bench bulk TLS_AES_256_GCM_SHA384 1048576
+negotiated TLSv1.3 with TLS_AES_256_GCM_SHA384
+send: 5976.69 MB/s
+recv: 6343.9 MB/s
+env LD_LIBRARY_PATH=../openssl ./bench handshake ECDHE-RSA-AES256-GCM-SHA384
+handshakes	client	2555.64	handshakes/s
+handshakes	server	2116.31	handshakes/s
+env LD_LIBRARY_PATH=../openssl ./bench handshake-resume ECDHE-RSA-AES256-GCM-SHA384
+negotiated TLSv1.2 with ECDHE-RSA-AES256-GCM-SHA384
+connects: 0, connects-good: 0, accepts: 32769, accepts-good: 32769
+sessions: 1, hits: 32768, misses: 0
+handshakes	client	22023.7	handshakes/s
+handshakes	server	23627.9	handshakes/s
+env LD_LIBRARY_PATH=../openssl ./bench handshake-ticket ECDHE-RSA-AES256-GCM-SHA384
+negotiated TLSv1.2 with ECDHE-RSA-AES256-GCM-SHA384
+connects: 0, connects-good: 0, accepts: 32769, accepts-good: 32769
+sessions: 0, hits: 32768, misses: 0
+handshakes	client	21989.8	handshakes/s
+handshakes	server	20009.8	handshakes/s
+env LD_LIBRARY_PATH=../openssl ./bench handshake TLS_AES_256_GCM_SHA384
+handshakes	client	2253.05	handshakes/s
+handshakes	server	1864.09	handshakes/s
+env LD_LIBRARY_PATH=../openssl ./bench handshake-resume TLS_AES_256_GCM_SHA384
+negotiated TLSv1.3 with TLS_AES_256_GCM_SHA384
+connects: 0, connects-good: 0, accepts: 32769, accepts-good: 32769
+sessions: 20479, hits: 20479, misses: 12289
+handshakes	client	3397.01	handshakes/s
+handshakes	server	3047.04	handshakes/s
+env LD_LIBRARY_PATH=../openssl ./bench handshake-ticket TLS_AES_256_GCM_SHA384
+negotiated TLSv1.3 with TLS_AES_256_GCM_SHA384
+connects: 0, connects-good: 0, accepts: 32769, accepts-good: 32769
+sessions: 0, hits: 32768, misses: 0
+handshakes	client	5123.48	handshakes/s
+handshakes	server	4631.91	handshakes/s

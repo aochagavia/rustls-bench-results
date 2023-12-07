@@ -1,0 +1,30 @@
+Did 6280000 EVP-AES-128-GCM encrypt init operations in 1000071us (6279554.2 ops/sec)
+Did 12668000 EVP-AES-128-GCM encrypt (16 bytes) operations in 1000026us (12667670.6 ops/sec): 202.7 MB/s
+Did 8807000 EVP-AES-128-GCM encrypt (256 bytes) operations in 1000017us (8806850.3 ops/sec): 2254.6 MB/s
+Did 4317250 EVP-AES-128-GCM encrypt (1350 bytes) operations in 1000016us (4317180.9 ops/sec): 5828.2 MB/s
+Did 1461500 EVP-AES-128-GCM encrypt (8192 bytes) operations in 1000120us (1461324.6 ops/sec): 11971.2 MB/s
+Did 805000 EVP-AES-128-GCM encrypt (16384 bytes) operations in 1000987us (804206.2 ops/sec): 13176.1 MB/s
+Did 6282000 EVP-AES-128-GCM decrypt init operations in 1000030us (6281811.5 ops/sec)
+Did 13828000 EVP-AES-128-GCM decrypt (16 bytes) operations in 1000061us (13827156.5 ops/sec): 221.2 MB/s
+Did 10539250 EVP-AES-128-GCM decrypt (256 bytes) operations in 1000013us (10539113.0 ops/sec): 2698.0 MB/s
+Did 4541000 EVP-AES-128-GCM decrypt (1350 bytes) operations in 1000056us (4540745.7 ops/sec): 6130.0 MB/s
+Did 1484000 EVP-AES-128-GCM decrypt (8192 bytes) operations in 1000531us (1483212.4 ops/sec): 12150.5 MB/s
+Did 814000 EVP-AES-128-GCM decrypt (16384 bytes) operations in 1000662us (813461.5 ops/sec): 13327.8 MB/s
+Did 5972000 EVP-AES-256-GCM encrypt init operations in 1000005us (5971970.1 ops/sec)
+Did 12173750 EVP-AES-256-GCM encrypt (16 bytes) operations in 1000008us (12173652.6 ops/sec): 194.8 MB/s
+Did 8390000 EVP-AES-256-GCM encrypt (256 bytes) operations in 1000004us (8389966.4 ops/sec): 2147.8 MB/s
+Did 3991500 EVP-AES-256-GCM encrypt (1350 bytes) operations in 1000028us (3991388.2 ops/sec): 5388.4 MB/s
+Did 1309000 EVP-AES-256-GCM encrypt (8192 bytes) operations in 1000023us (1308969.9 ops/sec): 10723.1 MB/s
+Did 717000 EVP-AES-256-GCM encrypt (16384 bytes) operations in 1001385us (716008.3 ops/sec): 11731.1 MB/s
+Did 5755500 EVP-AES-256-GCM decrypt init operations in 1000007us (5755459.7 ops/sec)
+Did 13810000 EVP-AES-256-GCM decrypt (16 bytes) operations in 1000010us (13809861.9 ops/sec): 221.0 MB/s
+Did 10253750 EVP-AES-256-GCM decrypt (256 bytes) operations in 1000024us (10253503.9 ops/sec): 2624.9 MB/s
+Did 4179750 EVP-AES-256-GCM decrypt (1350 bytes) operations in 1000025us (4179645.5 ops/sec): 5642.5 MB/s
+Did 1327000 EVP-AES-256-GCM decrypt (8192 bytes) operations in 1000558us (1326259.9 ops/sec): 10864.7 MB/s
+Did 723000 EVP-AES-256-GCM decrypt (16384 bytes) operations in 1000355us (722743.4 ops/sec): 11841.4 MB/s
+Did 48322750 AEAD-ChaCha20-Poly1305 seal init operations in 1000004us (48322556.7 ops/sec)
+Did 6095000 AEAD-ChaCha20-Poly1305 seal (16 bytes) operations in 1000050us (6094695.3 ops/sec): 97.5 MB/s
+Did 3632500 AEAD-ChaCha20-Poly1305 seal (256 bytes) operations in 1000015us (3632445.5 ops/sec): 929.9 MB/s
+Did 1168000 AEAD-ChaCha20-Poly1305 seal (1350 bytes) operations in 1000143us (1167833.0 ops/sec): 1576.6 MB/s
+Did 250000 AEAD-ChaCha20-Poly1305 seal (8192 bytes) operations in 1000079us (249980.3 ops/sec): 2047.8 MB/s
+Did 128000 AEAD-ChaCha20-Poly1305 seal (16384 bytes) operations in 1002238us (127714.2 ops/sec): 2092.5 MB/s

@@ -1,0 +1,24 @@
+Did 2285000 EVP-AES-128-GCM encrypt init operations in 1000155us (2284645.9 ops/sec)
+Did 7636000 EVP-AES-128-GCM encrypt (16 bytes) operations in 1000038us (7635709.8 ops/sec): 122.2 MB/s
+Did 6504750 EVP-AES-128-GCM encrypt (256 bytes) operations in 1000039us (6504496.3 ops/sec): 1665.2 MB/s
+Did 3588000 EVP-AES-128-GCM encrypt (1350 bytes) operations in 1000171us (3587386.6 ops/sec): 4843.0 MB/s
+Did 1350000 EVP-AES-128-GCM encrypt (8192 bytes) operations in 1000555us (1349251.2 ops/sec): 11053.1 MB/s
+Did 769000 EVP-AES-128-GCM encrypt (16384 bytes) operations in 1001132us (768130.5 ops/sec): 12585.0 MB/s
+Did 2277000 EVP-AES-128-GCM decrypt init operations in 1000366us (2276166.9 ops/sec)
+Did 8233250 EVP-AES-128-GCM decrypt (16 bytes) operations in 1000017us (8233110.0 ops/sec): 131.7 MB/s
+Did 6784250 EVP-AES-128-GCM decrypt (256 bytes) operations in 1000016us (6784141.5 ops/sec): 1736.7 MB/s
+Did 3708000 EVP-AES-128-GCM decrypt (1350 bytes) operations in 1000113us (3707581.0 ops/sec): 5005.2 MB/s
+Did 1372000 EVP-AES-128-GCM decrypt (8192 bytes) operations in 1000261us (1371642.0 ops/sec): 11236.5 MB/s
+Did 779000 EVP-AES-128-GCM decrypt (16384 bytes) operations in 1000501us (778609.9 ops/sec): 12756.7 MB/s
+Did 2212000 EVP-AES-256-GCM encrypt init operations in 1000049us (2211891.6 ops/sec)
+Did 7401750 EVP-AES-256-GCM encrypt (16 bytes) operations in 1000017us (7401624.2 ops/sec): 118.4 MB/s
+Did 6234250 EVP-AES-256-GCM encrypt (256 bytes) operations in 1000007us (6234206.4 ops/sec): 1596.0 MB/s
+Did 3366250 EVP-AES-256-GCM encrypt (1350 bytes) operations in 1000045us (3366098.5 ops/sec): 4544.2 MB/s
+Did 1216750 EVP-AES-256-GCM encrypt (8192 bytes) operations in 1000189us (1216520.1 ops/sec): 9965.7 MB/s
+Did 688000 EVP-AES-256-GCM encrypt (16384 bytes) operations in 1000969us (687334.0 ops/sec): 11261.3 MB/s
+Did 2211000 EVP-AES-256-GCM decrypt init operations in 1000049us (2210891.7 ops/sec)
+Did 8001000 EVP-AES-256-GCM decrypt (16 bytes) operations in 1000097us (8000224.0 ops/sec): 128.0 MB/s
+Did 6569000 EVP-AES-256-GCM decrypt (256 bytes) operations in 1000015us (6568901.5 ops/sec): 1681.6 MB/s
+Did 3469750 EVP-AES-256-GCM decrypt (1350 bytes) operations in 1000071us (3469503.7 ops/sec): 4683.8 MB/s
+Did 1235000 EVP-AES-256-GCM decrypt (8192 bytes) operations in 1000693us (1234144.7 ops/sec): 10110.1 MB/s
+Did 697000 EVP-AES-256-GCM decrypt (16384 bytes) operations in 1001432us (696003.3 ops/sec): 11403.3 MB/s
