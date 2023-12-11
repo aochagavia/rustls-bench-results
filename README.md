@@ -62,9 +62,9 @@ We ran the benchmarks on a bare-metal server with the following characteristics:
 The most recent version of OpenSSL at the time of this research was 3.2.0. We benchmarked it using
 ctz's
 [openssl-bench](https://github.com/ctz/openssl-bench/tree/7bc3277b062c598463d60e6d821198ec5c7a4763)
-repository, which expects a built OpenSSL tree in `../openssl/`. We ran the benchmarks using
-`BENCH_MULTIPLIER=8 setarch -R make measure` (setarch is used here and elsewhere to disable ASLR and
-thereby reduce noise).
+repository, which expects a built OpenSSL tree in `../openssl/` and the rustls repository in
+`../rustls`. We ran the benchmarks using `BENCH_MULTIPLIER=8 setarch -R make measure` (setarch is
+used here and elsewhere to disable ASLR and thereby reduce noise).
 
 ### rustls
 
