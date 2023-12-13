@@ -157,16 +157,16 @@ Open questions:
 
 ### jemalloc's effect on rustls + aws-lc bulk transfers
 
-|Scenario|Rustls (0.22.0, aws-lc_gcc, malloc)|Rustls (0.22.0, aws-lc_clang, jemalloc)|Factor|
+|Scenario|Rustls (0.22.0, aws-lc_gcc, malloc)|Rustls (0.22.0, aws-lc_gcc, jemalloc)|Factor|
 |-|-:|-:|-:|
-|bulk_1.2_ECDHE_RSA_AES128-GCM_SHA256_sent|2847.44|6573.1|2.31x|
-|bulk_1.2_ECDHE_RSA_AES128-GCM_SHA256_received|6135.09|6036.7|0.98x|
-|bulk_1.2_ECDHE_RSA_AES256-GCM_SHA384_sent|2788.35|6171.02|2.21x|
-|bulk_1.2_ECDHE_RSA_AES256-GCM_SHA384_received|5776.34|5680.81|0.98x|
-|bulk_1.2_ECDHE_RSA_CHACHA20_POLY1305_sent|1287.94|1740.76|1.35x|
-|bulk_1.2_ECDHE_RSA_CHACHA20_POLY1305_received|1738.97|1731.35|1.00x|
-|bulk_1.3_ECDHE_RSA_AES256-GCM_SHA384_sent|2791.74|6225.5|2.23x|
-|bulk_1.3_ECDHE_RSA_AES256-GCM_SHA384_received|6093.48|5987.83|0.98x|
+|bulk_1.2_ECDHE_RSA_AES128-GCM_SHA256_sent|2847.44|6712.29|2.36x|
+|bulk_1.2_ECDHE_RSA_AES128-GCM_SHA256_received|6135.09|6017.82|0.98x|
+|bulk_1.2_ECDHE_RSA_AES256-GCM_SHA384_sent|2788.35|6193.18|2.22x|
+|bulk_1.2_ECDHE_RSA_AES256-GCM_SHA384_received|5776.34|5669.77|0.98x|
+|bulk_1.2_ECDHE_RSA_CHACHA20_POLY1305_sent|1287.94|1750.11|1.36x|
+|bulk_1.2_ECDHE_RSA_CHACHA20_POLY1305_received|1738.97|1731.27|1.00x|
+|bulk_1.3_ECDHE_RSA_AES256-GCM_SHA384_sent|2791.74|6256.94|2.24x|
+|bulk_1.3_ECDHE_RSA_AES256-GCM_SHA384_received|6093.48|5945.02|0.98x|
 
 ### clang's effect on rustls + ring handshakes
 
