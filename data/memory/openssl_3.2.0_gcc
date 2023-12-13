@@ -1,0 +1,16 @@
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory ECDHE-RSA-AES256-GCM-SHA384 100
+15860
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory ECDHE-RSA-AES256-GCM-SHA384 1000
+83300
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory ECDHE-RSA-AES256-GCM-SHA384 5000
+382476
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory ECDHE-RSA-AES256-GCM-SHA384 10000
+756380
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory TLS_AES_256_GCM_SHA384 100
+15544
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory TLS_AES_256_GCM_SHA384 1000
+76712
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory TLS_AES_256_GCM_SHA384 5000
+348640
+env LD_LIBRARY_PATH=../openssl /usr/bin/time -f %M ./bench memory TLS_AES_256_GCM_SHA384 10000
+688436

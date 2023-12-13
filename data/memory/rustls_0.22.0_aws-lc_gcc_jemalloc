@@ -1,0 +1,16 @@
+/usr/bin/env time -f %M target/release/examples/bench memory TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 100
+11540
+/usr/bin/env time -f %M target/release/examples/bench memory TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 1000
+21044
+/usr/bin/env time -f %M target/release/examples/bench memory TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 5000
+57124
+/usr/bin/env time -f %M target/release/examples/bench memory TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 10000
+104932
+/usr/bin/env time -f %M target/release/examples/bench memory TLS13_AES_256_GCM_SHA384 100
+11536
+/usr/bin/env time -f %M target/release/examples/bench memory TLS13_AES_256_GCM_SHA384 1000
+21792
+/usr/bin/env time -f %M target/release/examples/bench memory TLS13_AES_256_GCM_SHA384 5000
+70728
+/usr/bin/env time -f %M target/release/examples/bench memory TLS13_AES_256_GCM_SHA384 10000
+131816

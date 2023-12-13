@@ -9,7 +9,8 @@ published the results [online](https://jbp.io/2019/07/01/rustls-vs-openssl-perfo
 The benchmarks focus on the following aspects of performance:
 
 1. Bulk data transfer throughput in MB/s;
-2. Handshake throughput (full, session id, tickets) in handshakes per second.
+2. Handshake throughput (full, session id, tickets) in handshakes per second;
+3. Memory usage per connection.
 
 For _bulk transfers_, we benchmark the following cipher suites: `AES128-GCM_SHA256`,
 `AES256-GCM_SHA384` and `CHACHA20_POLY1305`. We test them all using TLS 1.2, and additionally test
@@ -21,6 +22,9 @@ For _handshakes_, we benchmark ECDHE + RSA using a 2048-bit key. We use both TLS
 
 As an example, see below a comparison between OpenSSL and the aws-lc rustls configuration, showing
 the speedup / slowdown factor in the rightmost column:
+
+<details>
+<summary>Toggle comparison</summary>
 
 |Scenario|OpenSSL (3.2.0)|Rustls (0.22.0, aws-lc)|Factor|
 |-|-:|-:|-:|
@@ -44,6 +48,7 @@ the speedup / slowdown factor in the rightmost column:
 |handshake-session-id_1.3_ECDHE_RSA_AES256-GCM_SHA384_server|3060.17|7434.41|2.43x|
 |handshake-ticket_1.3_ECDHE_RSA_AES256-GCM_SHA384_client|5182.51|11244.79|2.17x|
 |handshake-ticket_1.3_ECDHE_RSA_AES256-GCM_SHA384_server|4718.39|7347.91|1.56x|
+</details>
 
 # 2. Methodology
 
@@ -52,6 +57,7 @@ the speedup / slowdown factor in the rightmost column:
 We ran the benchmarks on a bare-metal server with the following characteristics:
 
 - OS: Debian 12 (Bookworm).
+- C/C++ toolchains: GCC 12.2.0 and Clang 14.0.6.
 - CPU: Xeon E-2386G (supporting AVX-512).
 - Memory: 32GB.
 - Extra configuration: hyper-threading disabled, dynamic frequency scaling disabled, cpu scaling
@@ -91,10 +97,13 @@ The **C/C++ toolchain** was specified through Debian's `update-alternatives` uti
 checked the build artifacts of ring and aws-lc-rs to ensure they were indeed built with the right
 toolchain (using `objdump -s --section .comment target/release/deps/artifact.rlib`).
 
-The **allocator** was specified by manually modifying `bench.rs` to use `Jemallocator` through the
-`#[global_allocator]` attribute (see jemallocator's
-[repository](https://github.com/tikv/jemallocator/tree/417d62bc976aec34ec729bd391cb66f837bd0eb8) for
-details).
+The **allocator** was specified by manually modifying `bench.rs` to use `Jemallocator` (requires
+`cargo add --dev jemallocator -p rustls`):
+
+```rust
+#[global_allocator]
+static GLOBAL: jemallocator::Jemalloc = jemallocator::Jemalloc;
+```
 
 ### Result collection and reporting
 
@@ -107,41 +116,59 @@ markdown format (and could be modified to generate CSV or something else that su
 Hint: use `poetry install --no-root` to generate a virtual environment and Visual Studio Code to
 play with the notebook.
 
+The memory benchmarks are much more deterministic, so we only ran them once.
+
 # 3. Conclusions
 
-Based on our own benchmarks:
+Highlighted results from our benchmarks:
 
-- For rustls, jemalloc offers significantly higher throughput over glibc's malloc in the sending
-  part of the bulk transfer scenario (35% to 136% higher, depending on the crypto backend and cipher
-  suite). The cause seems to be a [massive difference in page
-  faults](https://github.com/rustls/rustls/issues/1626#issuecomment-1842733970). See
-  [ring](#jemallocs-effect-on-rustls--ring-bulk-transfers) and
+- Rustls achieves best overall performance when used together with the
+  [`aws-lc-rs`](https://aws.amazon.com/blogs/opensource/introducing-aws-libcrypto-for-rust-an-open-source-cryptographic-library-for-rust/)
+  cryptography provider insead of `*ring*` (see [this table](#ring-vs-aws-lc)). Also, `jemalloc`
+  offers significantly higher data transfer throughput over Rust's default `glibc malloc` (35% to
+  136% higher, depending on the crypto backend and cipher suite). The cause seems to be a [massive
+  difference in page faults](https://github.com/rustls/rustls/issues/1626#issuecomment-1842733970).
+  See [ring](#jemallocs-effect-on-rustls--ring-bulk-transfers) and
   [aws-lc](#jemallocs-effect-on-rustls--aws-lc-bulk-transfers) tables for details.
+- Rustls uses significantly less __memory__ than OpenSSL. At peak, a Rustls session costs ~13KiB and
+  an OpenSSL session costs ~69KiB in the tested workloads. We measured a
+  [C10K](https://en.wikipedia.org/wiki/C10k_problem) memory usage of 132MiB for Rustls and 688MiB
+  for OpenSSL (see [this table](#openssl-vs-rustls--aws-lc-memory-usage) for details).
+- Rustls offers roughly the same __data send throughput__ as OpenSSL when using AES-based cipher
+  suites. __Data receive throughput__ is 7% to 17% lower, due to a limitation in the Rustls API that
+  forces an extra copy. [Work is ongoing](https://github.com/rustls/rustls/pull/1420) to make that
+  copy unnecessary. See [this table](#openssl-vs-rustls--aws-lc) for the detailed comparison.
+- Rustls offers around 45% less __data transfer throughput__ than OpenSSL when using ChaCha20-based
+  cipher suites (see [this table](#openssl-vs-rustls--aws-lc)). It is probable that the underlying
+  cryptographic primitives are better optimized in OpenSSL (curiously, if OpenSSL is compiled using
+  Clang, performance degrades for this specific workload and the resulting throughput ends up
+  slightly below Rustls, as reported [here](#clangs-effect-on-openssl-bulk-transfers)).
+- Rustls handles 30% (TLS 1.2) or 27% (TLS 1.3) less __full handshakes per second__ on the server
+  side, but offers significantly more throughput on the client side (up to 106% more, that is, a
+  factor of 2.06x). See [this table](#openssl-vs-rustls--aws-lc) for details.
+- Rustls handles 80% to 330% (depending on the scenario) more __resumed handshakes per second__,
+  either using session ID or ticket-based resumption. See [this table](#openssl-vs-rustls--aws-lc)
+  for details.
+
+Additional results that might be interesting:
+
 - For rustls + ring, Clang offers significantly better handshake throughput over GCC (up to 15% in
   the full handshake scenarios, and up to 27% in the resumed handshake scenarios). See
   [table](#clangs-effect-on-rustls--ring-handshakes) for details.
-- There is no significant performance difference for rustls + aws-lc between GCC and Clang.
-- There is no significant performance difference for OpenSSL between GCC and Clang, except in the
-  `CHACHA20_POLY1305` bulk transfer, which takes a 45% hit when Clang is used. See
-  [table](#clangs-effect-on-openssl-bulk-transfers) for details.
 - Overall, rustls + aws-lc beats rustls + ring by a wide margin in bulk transfers (up to 67%), but
   it lags behind a bit in TLS 1.3 handshakes (up to 16%). See [table](#ring-vs-aws-lc) for details.
-- Overall, OpenSSL beats rustls + aws-lc in bulk transfers and server-side full-handshakes.
-  Conversely, rustls + aws-lc blows OpenSSL out of the water in all other handshake scenarios. See
-  [table](#openssl-vs-rustls--aws-lc) for details.
+- There is no significant performance difference for rustls + aws-lc between GCC and Clang.
 
 Additional thoughts:
 
 - `aws-lc` has its own benchmarking suite which reports that performance is on par with OpenSSL for
-  `AES-128-GCM` and `AES-256-GCM`, suggesting that the current bottleneck is elsewhere (in the
-  `aws-lc-rs` wrapper or in `rustls` itself). See `data/aws-lc-bench-results` for the raw output.
-- According to the same `aws-lc` benchmarks, the `ChaCha20-Poly1305` is in `aws-lc` itself.
+  `AES-128-GCM` and `AES-256-GCM`, suggesting that any bottlenecks for `AES`-based ciphers are
+  elsewhere (in the `aws-lc-rs` wrapper or in `rustls` itself). See `data/aws-lc-bench-results` for
+  the raw output.
+- According to the same `aws-lc` benchmarks, the bottleneck for `ChaCha20`-based ciphers  is in
+  `aws-lc` itself.
 
-Open questions:
-
-- Where does the performance difference in handshakes per second come from?
-
-# 4. Appendix
+# 4. Appendix: result comparisons
 
 ### jemalloc's effect on rustls + ring bulk transfers
 
@@ -247,3 +274,22 @@ Open questions:
 |handshake-session-id_1.3_ECDHE_RSA_AES256-GCM_SHA384_server|3060.17|7434.41|2.43x|
 |handshake-ticket_1.3_ECDHE_RSA_AES256-GCM_SHA384_client|5182.51|11244.79|2.17x|
 |handshake-ticket_1.3_ECDHE_RSA_AES256-GCM_SHA384_server|4718.39|7347.91|1.56x|
+
+### OpenSSL vs rustls + aws-lc memory usage
+
+Peak memory usage of a process which creates N sessions (N/2 client sessions associated with N/2
+server sessions) and then takes these sessions through a full handshake in lockstep.
+
+| Cipher suite | N | OpenSSL 3.2.0 (KiB) | Rustls 0.22.0, aws-lc_gcc, jemalloc (KiB) | vs. |
+|-|-:|-:|-:|-:|
+| TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (TLS 1.2) | 100   | 15860 | 11540 | -27%  |
+| TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (TLS 1.2) | 1000  | 83300 | 21044 | -75%  |
+| TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (TLS 1.2) | 5000  | 382476 | 57124 | -85%  |
+| TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (TLS 1.2) | 10000 | 756380 | 104932 | -86%  |
+| TLS_AES_256_GCM_SHA384 (TLS 1.3) | 100   | 15544 | 11536 | -0.26 |
+| TLS_AES_256_GCM_SHA384 (TLS 1.3) | 1000  | 76712 | 21792 | -72%  |
+| TLS_AES_256_GCM_SHA384 (TLS 1.3) | 5000  | 348640 | 70728 | -80%  |
+| TLS_AES_256_GCM_SHA384 (TLS 1.3) | 10000 | 688436 | 131816 | -81%  |
+
+Note that, when the number of handshakes is small, the difference between Rustls and OpenSSL
+narrows. This is due to jemalloc reserving more memory than strictly necessary.
