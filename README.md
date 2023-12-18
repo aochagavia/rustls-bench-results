@@ -139,13 +139,17 @@ Highlighted results from our benchmarks:
   forces an extra copy. [Work is ongoing](https://github.com/rustls/rustls/pull/1420) to make that
   copy unnecessary. See [this table](#openssl-vs-rustls--aws-lc) for the detailed comparison.
 - Rustls offers around 45% less __data transfer throughput__ than OpenSSL when using ChaCha20-based
-  cipher suites (see [this table](#openssl-vs-rustls--aws-lc)). It is probable that the underlying
-  cryptographic primitives are better optimized in OpenSSL (curiously, if OpenSSL is compiled using
-  Clang, performance degrades for this specific workload and the resulting throughput ends up
-  slightly below Rustls, as reported [here](#clangs-effect-on-openssl-bulk-transfers)).
-- Rustls handles 30% (TLS 1.2) or 27% (TLS 1.3) less __full handshakes per second__ on the server
-  side, but offers significantly more throughput on the client side (up to 106% more, that is, a
-  factor of 2.06x). See [this table](#openssl-vs-rustls--aws-lc) for details.
+  cipher suites (see [this table](#openssl-vs-rustls--aws-lc)). Further research reveals that
+  OpenSSL's underlying cryptographic primitives are better optimized for server-grade hardware by
+  taking advantage of AVX-512 support (disabling AVX-512 results in similar performance between
+  Rustls and OpenSSL). Curiously, OpenSSL compiled with Clang degrades to the same throughput levels
+  as when AVX-512 is disabled (as reported [here](#clangs-effect-on-openssl-bulk-transfers)).
+- Rustls handles 30% (TLS 1.2) or 27% (TLS 1.3) less __full RSA handshakes per second__ on the
+  server side, but offers significantly more throughput on the client side (up to 106% more, that
+  is, a factor of 2.06x). See [this table](#openssl-vs-rustls--aws-lc) for details. These
+  differences are presumably due to the underlying RSA implementation, since the situation is
+  reversed when using ECDSA (Rustls beats OpenSSL by a wide margin in server-side performance, and
+  lags behind a bit in client-side performance).
 - Rustls handles 80% to 330% (depending on the scenario) more __resumed handshakes per second__,
   either using session ID or ticket-based resumption. See [this table](#openssl-vs-rustls--aws-lc)
   for details.
